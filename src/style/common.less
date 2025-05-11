@@ -1,0 +1,22 @@
+// 重置默认样式
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;   //内减模式
+}
+
+.text-ellipsis-2 {
+  overflow: hidden;               /* 隐藏超出部分 */
+  text-overflow: ellipsis;        /* 溢出时显示省略号 */
+  display: -webkit-box;           /* 必需，旧版 WebKit 内核支持 */
+  line-clamp: 2;                  /* 标准属性（未来兼容） */
+  -webkit-line-clamp: 2;          /* WebKit 私有属性 */
+  -webkit-box-orient: vertical;   /* 必需，控制方向 */
+}
+
+.van-nav-bar{
+  // 通用样式覆盖（左箭头...）
+  .van-nav-bar__arrow, .van-nav-bar__text{
+    color: #333
+  }
+}
