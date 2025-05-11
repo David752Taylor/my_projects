@@ -39,7 +39,7 @@
 
 <script>
 import { Toast } from 'vant'
-import request from '@/utils/request'
+import { getPicCode } from '@/api/login'
 
 export default {
   name: 'LoginPage',
@@ -58,10 +58,11 @@ export default {
       Toast('按钮')
     },
     async getPicCode () {
-      const res = await request.get('captcha/image')
-      console.log(res)
-      this.picURL = res.data.base64
-      this.picKey = res.data.key
+      console.log(await getPicCode())
+      const { data: { base64, key } } = await getPicCode()
+      this.picURL = base64
+      this.picKey = key
+      this.$toast.success('图形码已刷新')
     }
     // async getPhoneCode () {
     //   const res = await request.post('/captcha/sendSmsCaptcha' )
