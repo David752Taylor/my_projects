@@ -71,11 +71,11 @@ export default {
     },
     validFn () {
       if (!/^1[3-9]\d{9}$/.test(this.mobile)) {
-        this.$toast('请输入正确的手机号')
+        this.$toast('手机号格式有误')
         return false
       }
       if (!/^\w{4}$/.test(this.picCode)) {
-        this.$toast('请输入正确的图形码')
+        this.$toast('图形码格式有误')
         return false
       }
       return true
@@ -89,9 +89,7 @@ export default {
         const res = await getMsgCode(this.picCode, this.picKey, this.mobile)
         console.log(res)
         if (res.status === 200) {
-          this.$toast('短信发送成功')
-        } else {
-          this.$toast('短信发送失败')
+          this.$toast('短信发送成功，请注意查收')
         }
 
         // 开启倒计时
@@ -117,10 +115,9 @@ export default {
 
       const res = await codeLogin(this.mobile, this.msgCode)
       console.log(res)
-      if (res.status === 200) {
-        this.$toast('登录成功')
-        this.$router.push('/')
-      }
+      this.$store.commit('user/setInfo', res.data)
+      this.$toast('登录成功')
+      this.$router.push('/')
     }
   },
   created () {
