@@ -3,7 +3,7 @@ import axios from 'axios'
 const instance = axios.create({
   // baseURL: 'http://cba.itlike.com/public/index.php?s=/api/',
   baseURL: 'http://smart-shop.itheima.net/index.php?s=/api',
-  timeout: 5000
+  timeout: 10000
 })
 
 // 添加请求拦截器
