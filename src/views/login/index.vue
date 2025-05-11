@@ -23,8 +23,8 @@
           <input class="inp" maxlength="11" placeholder="请输入手机" type="text" value="15751776629">
         </div>
         <div class="form-item">
-          <input class="inp" maxlength="5" placeholder="请输入图形码" type="text" value="pwft">
-          <img src="@/assets/code.png" alt="">
+          <input class="inp" maxlength="5" placeholder="请输入图形码" type="text" v-model="picCode">
+          <img v-if="picURL" :src="picURL" alt="" @click="getPicCode">
         </div>
         <div class="form-item">
           <input class="inp" placeholder="请输入短信验证码" type="text" value="246810">
@@ -39,15 +39,36 @@
 
 <script>
 import { Toast } from 'vant'
+import request from '@/utils/request'
+
 export default {
   name: 'LoginPage',
+  data () {
+    return {
+      picURL: '', // @/assets/code.png
+      picCode: '', // 图形验证码
+      picKey: '' // 图形验证码唯一标识
+    }
+  },
   methods: {
     onClickLeft () {
       Toast('返回')
     },
     onClickRight () {
       Toast('按钮')
+    },
+    async getPicCode () {
+      const res = await request.get('captcha/image')
+      console.log(res)
+      this.picURL = res.data.base64
+      this.picKey = res.data.key
     }
+    // async getPhoneCode () {
+    //   const res = await request.post('/captcha/sendSmsCaptcha' )
+    // }
+  },
+  created () {
+    this.getPicCode()
   }
 }
 </script>
