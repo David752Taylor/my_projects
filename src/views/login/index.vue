@@ -109,13 +109,12 @@ export default {
         return
       }
       if (!/^\d{6}$/.test(this.msgCode)) {
-        this.$toast('验证码有误')
+        this.$toast('手机验证码有误')
         return
       }
 
       const res = await codeLogin(this.mobile, this.msgCode)
-      console.log(res)
-      this.$store.commit('user/setInfo', res.data)
+      this.$store.commit('user/setUserInfo', res.data)
       this.$toast('登录成功')
       this.$router.push('/')
     }

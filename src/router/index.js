@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+import store from '@/store'
+
 // 引入 vant 组件库
 import '@/utils/vant-ui'
 
@@ -30,19 +32,34 @@ const router = new VueRouter({
       component: Layout,
       children: [
         { path: '/', redirect: '/home' },
-        { path: '/home', component: Home },
-        { path: '/cart', component: Cart },
-        { path: '/user', component: User },
-        { path: '/category', component: Category }
+        { path: '/home', component: Home }, // 首页
+        { path: '/cart', component: Cart }, // 购物车
+        { path: '/user', component: User }, // 我的
+        { path: '/category', component: Category } // 分类
       ]
     },
-    { path: '/search', component: Search },
-    { path: '/searchList', component: SearchList },
-    { path: '/pay', component: Pay },
-    { path: '/myorder', component: MyOrder },
-    { path: 'prodetail', component: ProDetail },
-    { path: '*', component: NotFind }
+    { path: '/search', component: Search }, // 搜索
+    { path: '/searchList', component: SearchList }, // 搜索列表
+    { path: 'prodetail', component: ProDetail }, // 商品详情
+    { path: '/pay', component: Pay }, // 支付
+    { path: '/myorder', component: MyOrder }, // 我的订单
+    { path: '*', component: NotFind } // 无页面
   ]
+})
+
+const authUrls = ['/pay', '/myorder']
+
+router.beforeEach((to, from, next) => {
+  if (!authUrls.includes(to.path)) {
+    next()
+  } else {
+    const token = store.getters.token
+    if (token) {
+      next()
+    } else {
+      next('/login')
+    }
+  }
 })
 
 export default router
