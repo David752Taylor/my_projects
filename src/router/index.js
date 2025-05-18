@@ -40,7 +40,7 @@ const router = new VueRouter({
     },
     { path: '/search', component: Search }, // 搜索
     { path: '/searchList', component: SearchList }, // 搜索列表
-    { path: 'prodetail', component: ProDetail }, // 商品详情
+    { path: '/prodetail/:id?', component: ProDetail }, // 商品详情
     { path: '/pay', component: Pay }, // 支付
     { path: '/myorder', component: MyOrder }, // 我的订单
     { path: '*', component: NotFind } // 无页面
