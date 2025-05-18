@@ -1,6 +1,6 @@
 <template>
   <div class="search">
-    <van-nav-bar title="商品搜索" left-text="返回" left-arrow @click-left="$router.go(-1)"/>
+    <van-nav-bar title="商 品 搜 索" left-text="返回" left-arrow @click-left="$router.go(-1)"/>
     <van-search v-model="search" input-align="center" show-action placeholder="请输入搜索关键词" @search="goSearch(search)" clearable>
       <template #action>
         <div @click="goSearch(search)">搜索</div>
@@ -50,11 +50,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
+// 导航条样式定制
+.van-nav-bar {
+  z-index: 2;
+  background-color: #4fc08d;
+  ::v-deep .van-nav-bar__title {
+    color: #fff;
+  }
+}
+
 .search {
-  // .searchBtn {
-  //   background-color: #fa2209;
-  //   color: #fff;
-  // }
   ::v-deep .van-search__action {
     background-color: #c21401;
     color: #fff;

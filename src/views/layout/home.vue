@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <van-nav-bar title="智慧商城" fixed/>
+    <van-nav-bar title="智 慧 商 城" fixed/>
     <van-search shape="round" background="#f1f1f2" placeholder="请输入搜索关键词" @click="$router.push('/search')"/>
 
     <!-- 轮播图 -->
