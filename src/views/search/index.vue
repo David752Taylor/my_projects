@@ -1,7 +1,7 @@
 <template>
   <div class="search">
     <van-nav-bar title="商 品 搜 索" left-text="返回" left-arrow @click-left="$router.go(-1)"/>
-    <van-search v-model="search" input-align="center" show-action placeholder="请输入搜索关键词" @search="goSearch(search)" clearable>
+    <van-search v-model="search" input-align="center" show-action placeholder="请输入搜索关键词" @search="goSearch(search)" clearable background="#f1f1f2">
       <template #action>
         <div @click="goSearch(search)">搜索</div>
       </template>
