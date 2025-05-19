@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { NavBar, Tabbar, TabbarItem, Toast, Search, Swipe, SwipeItem, grid, GridItem, Lazyload, Icon, Sidebar, SidebarItem, Image } from 'vant'
+import { NavBar, Tabbar, TabbarItem, Toast, Search, Swipe, SwipeItem, grid, GridItem, Lazyload, Icon, Sidebar, SidebarItem, Image, Loading, GoodsAction, GoodsActionIcon, GoodsActionButton, Rate, ActionSheet, Stepper } from 'vant'
 
 Vue.use(Toast)
 Vue.use(NavBar)
@@ -15,3 +15,10 @@ Vue.use(Icon)
 Vue.use(Sidebar)
 Vue.use(SidebarItem)
 Vue.use(Image)
+Vue.use(GoodsAction)
+Vue.use(GoodsActionIcon)
+Vue.use(GoodsActionButton)
+Vue.use(Rate)
+Vue.use(Loading)
+Vue.use(ActionSheet)
+Vue.use(Stepper)

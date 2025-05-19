@@ -15,7 +15,11 @@
         <van-grid :border="false" :column-num="3">
           <van-grid-item v-for="item in list[activeKey]?.children" :key="item.category_id" :text="item.name" :to="`/searchlist?categoryId=${item.category_id}`" >
             <template #icon>
-              <van-image :src="item.image?.external_url" width="75" height="75"/>
+              <van-image :src="item.image?.external_url" width="75" height="75">
+                <template v-slot:loading>
+                  <van-loading type="spinner" size="40" />
+                </template>
+              </van-image>
             </template>
           </van-grid-item>
         </van-grid>
@@ -57,13 +61,6 @@ export default {
   padding-top: 100px;
   padding-bottom: 50px;
   height: 100vh;
-  .van-nav-bar {
-    z-index: 2;
-    background-color: #4fc08d;
-    ::v-deep .van-nav-bar__title {
-      color: #fff;
-    }
-  }
   .list-box {
     height: 100%;
     display: flex;

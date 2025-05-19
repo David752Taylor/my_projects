@@ -1,7 +1,7 @@
 <template>
   <div class="search">
     <van-nav-bar fixed title="商 品 列 表" left-text="返回" left-arrow @click-left="$router.go(-1)"/>
-    <van-search readonly show-action shape="round" @click="$router.push('/search')" :value="querySearch|| '搜索商品'">
+    <van-search readonly show-action shape="round" @click="$router.push('/search')" placeholder="搜索商品" :value="querySearch">
       <template #action>
         <van-icon class="tool" name="apps-o" />
       </template>
@@ -52,15 +52,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-// 导航条样式定制
-.van-nav-bar {
-  z-index: 2;
-  background-color: #4fc08d;
-  ::v-deep .van-nav-bar__title {
-    color: #fff;
-  }
-}
-
 .search {
   padding-top: 46px;
   ::v-deep .van-icon-arrow-left {

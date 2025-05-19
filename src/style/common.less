@@ -5,6 +5,10 @@
     box-sizing: border-box;   //内减模式
 }
 
+html {
+  touch-action: manipulation; /* 禁用双击缩放 */
+}
+
 .text-ellipsis-2 {
   overflow: hidden;               /* 隐藏超出部分 */
   text-overflow: ellipsis;        /* 溢出时显示省略号 */
@@ -14,9 +18,14 @@
   -webkit-box-orient: vertical;   /* 必需，控制方向 */
 }
 
-.van-nav-bar{
-  // 通用样式覆盖（左箭头...）
-  .van-nav-bar__arrow, .van-nav-bar__text{
-    color: #333
+// 导航栏-通用样式覆盖
+.van-nav-bar {
+  z-index: 2;
+  background-color: #4fc08d;
+  .van-nav-bar__title {
+    color: #fff;
+  }
+  .van-nav-bar__text, .van-nav-bar__arrow::before {
+    color: rgb(72, 128, 212)
   }
 }
