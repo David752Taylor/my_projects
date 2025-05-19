@@ -28,3 +28,7 @@ export const getProComments = (goodsId, limit) => {
     }
   })
 }
+
+export const getProCartTotal = () => {
+  return request.get('/cart/total')
+}

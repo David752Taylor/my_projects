@@ -62,10 +62,10 @@
     <!-- 商品导航 -->
     <van-goods-action>
       <van-goods-action-icon icon="chat-o" text="客服" dot />
-      <van-goods-action-icon icon="cart-o" text="购物车" badge="5" />
+      <van-goods-action-icon icon="cart-o" text="购物车"  :badge="cartTotal?cartTotal:''" />
       <van-goods-action-icon icon="shop-o" text="店铺" badge="12" />
       <van-goods-action-button type="warning" text="加入购物车" @click="addFn"/>
-      <van-goods-action-button type="danger" text="立即购买" @click="buyFn"/>
+      <van-goods-action-button type="danger" text="立即购买" @click="buyNow"/>
     </van-goods-action>
 
     <!-- 动作面板 -->
@@ -92,8 +92,8 @@
           <!-- <van-stepper v-model="addCount" /> -->
         </div>
         <div class="showbtn" v-if="detail.stock_total">
-          <div class="btn" v-if="mode==='cart'">加入购物车</div>
-          <div class="btn now" v-else>立刻购买</div>
+          <div class="btn" v-if="mode==='cart'" @click="addCart">加入购物车</div>
+          <div class="btn now" v-else @click="addCart">立刻购买</div>
         </div>
         <div class="btn-none" v-else>该商品已抢完</div>
       </div>
@@ -103,7 +103,8 @@
 
 <script>
 import CountBox from '@/components/CountBox.vue'
-import { getProdetail, getProComments } from '@/api/product'
+import { getProdetail, getProComments, getProCartTotal } from '@/api/product'
+import { addCart } from '@/api/cart'
 import defaultImg from '@/assets/default-avatar.png'
 
 export default {
@@ -121,7 +122,8 @@ export default {
       defaultImg, // 默认用户头像
       showPanel: false, // 弹层显示隐藏
       mode: 'cart', // 弹层类型
-      addCount: 1
+      addCount: 1, // 添加数量
+      cartTotal: 0 // 购物车角标
     }
   },
   computed: {
@@ -137,9 +139,36 @@ export default {
       this.mode = 'cart'
       this.showPanel = true
     },
-    buyFn () {
+    buyNow () {
       this.mode = 'buyNow'
       this.showPanel = true
+    },
+    async addCart () {
+      if (!this.$store.getters.token) {
+        this.$dialog.alert({
+          title: '温馨提示',
+          message: '需要先登录才能继续操作',
+          showCancelButton: true,
+          confirmButtonText: '去登录',
+          confirmButtonColor: 'blue',
+          cancelButtonText: '再逛逛'
+        }).then(() => {
+          this.$router.replace({
+            path: '/login',
+            query: {
+              backUrl: this.$route.fullPath // 保存地址，登录后回弹
+            }
+          })
+        }).catch(() => {
+          // on cancel
+        })
+        return
+      }
+      const { data } = await addCart(this.goodsId, this.addCount, this.detail.skuList[0].goods_sku_id)
+      console.log(data)
+      this.cartTotal = data.cartTotal
+      this.$toast('加入购物车成功')
+      console.log(this.cartTotal)
     },
     async getDetail () {
       const res = await getProdetail(this.goodsId)
@@ -154,11 +183,16 @@ export default {
       const { data: { list, total } } = res
       this.commentList = list
       this.total = total
+    },
+    async getCartTotal () {
+      const { data: { cartTotal } } = await getProCartTotal()
+      this.cartTotal = cartTotal
     }
   },
   created () {
     this.getDetail()
     this.getComments()
+    this.getCartTotal()
   }
 }
 </script>

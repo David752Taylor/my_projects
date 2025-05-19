@@ -1,4 +1,5 @@
 import axios from 'axios'
+import store from '@/store'
 import { Toast } from 'vant'
 
 const instance = axios.create({
@@ -17,6 +18,13 @@ instance.interceptors.request.use(function (config) {
     loadingType: 'spinner', // 自定义图标
     duration: 0
   })
+
+  const token = store.getters.token
+  if (token) {
+    config.headers['Access-Token'] = token // 自定义头部
+    // config.headers.Authorization = `Bearer${token}` // 标准头部
+    config.headers.platform = 'H5'
+  }
   return config
 }, function (error) {
   // 对请求错误做些什么
