@@ -61,9 +61,9 @@
 
     <!-- 商品导航 -->
     <van-goods-action>
-      <van-goods-action-icon icon="chat-o" text="客服" dot />
-      <van-goods-action-icon icon="cart-o" text="购物车"  :badge="cartTotal?cartTotal:''" />
-      <van-goods-action-icon icon="shop-o" text="店铺" badge="12" />
+      <van-goods-action-icon icon="chat-o" text="客服" dot to="/service"/>
+      <van-goods-action-icon icon="cart-o" text="购物车"  :badge="cartTotal?cartTotal:''" to="/cart"/>
+      <van-goods-action-icon icon="shop-o" text="店铺" badge="12" to="/shop"/>
       <van-goods-action-button type="warning" text="加入购物车" @click="addFn"/>
       <van-goods-action-button type="danger" text="立即购买" @click="buyNow"/>
     </van-goods-action>
@@ -167,6 +167,7 @@ export default {
       const { data } = await addCart(this.goodsId, this.addCount, this.detail.skuList[0].goods_sku_id)
       console.log(data)
       this.cartTotal = data.cartTotal
+      this.showPanel = false
       this.$toast('加入购物车成功')
       console.log(this.cartTotal)
     },

@@ -1,9 +1,5 @@
 import request from '@/utils/request'
 
-export const getCart = () => {
-
-}
-
 // goodsId: 商品id
 // goodsSkuId: 商品规格id
 export const addCart = (goodsId, goodsNum, goodsSkuId) => {
@@ -11,5 +7,26 @@ export const addCart = (goodsId, goodsNum, goodsSkuId) => {
     goodsId,
     goodsNum,
     goodsSkuId
+  })
+}
+
+// 获取购物车列表
+export const getCartList = () => {
+  return request.get('/cart/list')
+}
+
+// 更新购物车商品数量
+export const changeCount = (goodsId, goodsNum, goodsSkuId) => {
+  return request.post('/cart/update', {
+    goodsId,
+    goodsNum,
+    goodsSkuId
+  })
+}
+
+// 删除购物车商品
+export const deleteCart = (cartIds) => {
+  return request.post('/cart/clear', {
+    cartIds
   })
 }
