@@ -1,5 +1,6 @@
 const INFO_KEY = 'my_shopping_info'
 const HISTORY_KEY = 'hm_history_list'
+// const ADDRESS_LIST = 'user_address_list'
 
 export const getInfo = () => {
   const defaultObj = { token: '', userId: '' }
@@ -23,3 +24,12 @@ export const getHistoryList = () => {
 export const setHistoryList = (arr) => {
   localStorage.setItem(HISTORY_KEY, JSON.stringify(arr))
 }
+
+// export const getAddressList = () => {
+//   const result = localStorage.getItem(ADDRESS_LIST)
+//   return result ? JSON.parse(result) : []
+// }
+
+// export const setAddressList = (arr) => {
+//   localStorage.setItem(ADDRESS_LIST, JSON.stringify(arr))
+// }

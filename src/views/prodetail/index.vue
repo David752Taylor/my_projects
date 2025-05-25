@@ -9,7 +9,7 @@
         <img v-lazy="image.external_url" />
       </van-swipe-item>
       <template #indicator>
-        <div class="custom-indicator">{{ current + 1 }}/4</div>
+        <div class="custom-indicator">{{ current + 1 }} / {{images.length}}</div>
       </template>
     </van-swipe>
 
@@ -93,7 +93,7 @@
         </div>
         <div class="showbtn" v-if="detail.stock_total">
           <div class="btn" v-if="mode==='cart'" @click="addCart">加入购物车</div>
-          <div class="btn now" v-else @click="addCart">立刻购买</div>
+          <div class="btn now" v-else @click="goPay">立刻购买</div>
         </div>
         <div class="btn-none" v-else>该商品已抢完</div>
       </div>
@@ -106,12 +106,14 @@ import CountBox from '@/components/CountBox.vue'
 import { getProdetail, getProComments, getProCartTotal } from '@/api/product'
 import { addCart } from '@/api/cart'
 import defaultImg from '@/assets/default-avatar.png'
+import loginConfirm from '@/mixins/loginConfirm'
 
 export default {
   name: 'ProDetailIndex',
   components: {
     CountBox
   },
+  mixins: [loginConfirm],
   data () {
     return {
       images: [], // 轮播图图片
@@ -143,36 +145,34 @@ export default {
       this.mode = 'buyNow'
       this.showPanel = true
     },
-    async addCart () {
-      if (!this.$store.getters.token) {
-        this.$dialog.alert({
-          title: '温馨提示',
-          message: '需要先登录才能继续操作',
-          showCancelButton: true,
-          confirmButtonText: '去登录',
-          confirmButtonColor: 'blue',
-          cancelButtonText: '再逛逛'
-        }).then(() => {
-          this.$router.replace({
-            path: '/login',
-            query: {
-              backUrl: this.$route.fullPath // 保存地址，登录后回弹
-            }
-          })
-        }).catch(() => {
-          // on cancel
-        })
+    goPay () {
+      if (this.loginConfirm()) {
         return
       }
-      const { data } = await addCart(this.goodsId, this.addCount, this.detail.skuList[0].goods_sku_id)
-      console.log(data)
+      this.$router.push({
+        path: '/pay',
+        query: {
+          mode: 'buyNow',
+          goodsId: this.goodsId,
+          goodsSkuId: this.detail.skuList[0].goods_sku_id,
+          goodsNum: this.addCount
+        }
+      })
+    },
+    async addCart () {
+      if (this.loginConfirm()) {
+        return
+      }
+      const res = await addCart(this.goodsId, this.addCount, this.detail.skuList[0].goods_sku_id)
+      console.log(res)
+      const { data } = res
       this.cartTotal = data.cartTotal
       this.showPanel = false
       this.$toast('加入购物车成功')
-      console.log(this.cartTotal)
     },
     async getDetail () {
       const res = await getProdetail(this.goodsId)
+      console.log(3)
       console.log(res)
       const { data: { detail } } = res
       this.detail = detail
@@ -180,13 +180,17 @@ export default {
     },
     async getComments () {
       const res = await getProComments(this.goodsId, 3)
+      console.log(6)
       console.log(res)
       const { data: { list, total } } = res
       this.commentList = list
       this.total = total
     },
     async getCartTotal () {
-      const { data: { cartTotal } } = await getProCartTotal()
+      const res = await getProCartTotal()
+      console.log(4)
+      console.log(res)
+      const { data: { cartTotal } } = res
       this.cartTotal = cartTotal
     }
   },
@@ -275,6 +279,7 @@ export default {
   .comment-item {
     font-size: 16px;
     line-height: 30px;
+    padding: 0 10px;
     .top {
       height: 30px;
       display: flex;
@@ -287,6 +292,17 @@ export default {
       .name {
         margin: 0 10px;
       }
+    }
+    .content{
+      font-size: 15px;
+      color:#333;
+      padding: 0 15px 0 5px;
+      display: -webkit-box;          /* 必需：旧版 WebKit 内核支持 */
+      -webkit-line-clamp: 2;         /* 限制显示行数 */
+      -webkit-box-orient: vertical;  /* 指定垂直方向排列 */
+      overflow: hidden;              /* 隐藏超出部分 */
+      text-overflow: ellipsis;       /* 超出时显示省略号 */
+      word-break: break-all;         /* 强制长单词换行（可选） */
     }
     .time {
       color: #999;
@@ -352,4 +368,5 @@ export default {
     background-color: #cccccc;
   }
 }
+
 </style>

@@ -43,7 +43,7 @@
             <span>合计：</span>
             <span>￥<i class="totalPrice">{{ selectPrice }}</i></span>
           </div>
-          <div v-if="!isEdit" class="goPay" :class="{disabled: !selectCount}" @click="$router.push('/pay')">结算({{ selectCount }})</div>
+          <div v-if="!isEdit" class="goPay" :class="{disabled: !selectCount}" @click="goPay">结算({{ selectCount }})</div>
           <div v-else class="delete" :class="{disabled: !selectCount}" @click="handleDel">删除</div>
         </div>
       </div>
@@ -91,6 +91,17 @@ export default {
         goodsSkuId
       })
     },
+    goPay () {
+      if (this.selectCount) {
+        this.$router.push({
+          path: '/pay',
+          query: {
+            mode: 'cart',
+            cartIds: this.selectCartList.map(item => item.id).join(',')
+          }
+        })
+      }
+    },
     async handleDel () {
       if (!this.selectCount) return
       await this.$store.dispatch('cart/delSelect')
@@ -119,6 +130,7 @@ export default {
   padding-bottom: 100px;
   background-color: #f5f5f5;
   min-height: 100vh;
+  overflow: hidden;
   .cart-title {
     height: 40px;
     display: flex;

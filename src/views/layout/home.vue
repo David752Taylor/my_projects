@@ -69,6 +69,11 @@ export default {
 .home {
   padding-top: 100px;
   padding-bottom: 50px;
+  height: 100vh; /* 占满视口 */
+  overflow-y: auto; /* 启用滚动 */
+}
+.home::-webkit-scrollbar {
+  display: none;
 }
 
 // 导航条样式定制

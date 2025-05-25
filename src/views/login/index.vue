@@ -63,8 +63,9 @@ export default {
       Toast('按钮')
     },
     async getPicCode () {
-      console.log(await getPicCode())
-      const { data: { base64, key } } = await getPicCode()
+      const res = await getPicCode()
+      console.log(res)
+      const { data: { base64, key } } = res
       this.picURL = base64
       this.picKey = key
       this.$toast.success('图形码已刷新')
@@ -93,7 +94,6 @@ export default {
         }
 
         // 开启倒计时
-        console.log(1)
         this.timer = setInterval(() => {
           this.second--
           if (!this.second) {
@@ -114,6 +114,7 @@ export default {
       }
 
       const res = await codeLogin(this.mobile, this.msgCode)
+      console.log(res)
       this.$store.commit('user/setUserInfo', res.data)
       this.$toast('登录成功')
       const url = this.$route.query.backUrl ? this.$route.query.backUrl : '/'

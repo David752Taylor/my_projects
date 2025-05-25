@@ -61,12 +61,22 @@ export default {
   padding-top: 100px;
   padding-bottom: 50px;
   height: 100vh;
+  overflow: hidden; /* 禁止全局滚动 */
+  position: fixed;  /* 防止软键盘弹出带动整个页面 */
+  // touch-action: none; /* 禁止手势回弹 */
+  // overscroll-behavior: none; /* 禁止滚动穿透和回弹 */
   .list-box {
     height: 100%;
     display: flex;
     .left {
       background-color: #f3f3f3;
-      overflow: auto;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      ::-webkit-scrollbar {
+      display: none;
+      }
+      scrollbar-width: none;
+      -ms-overflow-style: none;
       .van-sidebar-item--select::before {
           display: none;
       }
@@ -83,7 +93,13 @@ export default {
       flex: 1;
       height: 100%;
       padding: 10px 0;
+      -webkit-overflow-scrolling: touch;
       overflow-y: auto;
+      ::-webkit-scrollbar {
+        display: none;
+      }
+      scrollbar-width: none;
+      -ms-overflow-style: none;
       .van-grid-item{
         margin-bottom: 10px;
         ::v-deep .van-image__img {

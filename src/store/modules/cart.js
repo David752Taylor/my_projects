@@ -47,12 +47,15 @@ export default {
   },
   actions: {
     async getCartAction (context) {
-      const { data } = await getCartList()
+      const res = await getCartList()
+      console.log(res)
+      const { data } = res
       data.list.forEach(item => {
         item.isChecked = true
       })
       context.commit('setCartList', data.list)
     },
+
     async changeCountAction (context, obj) {
       const { goodsNum, goodsId, goodsSkuId } = obj
       // 先-本地修改
@@ -61,11 +64,12 @@ export default {
       const res = await changeCount(goodsId, goodsNum, goodsSkuId)
       console.log(res)
     },
+
     async delSelect (context) {
       const selCartList = context.getters.selectCartList
       const cartIds = selCartList.map(item => item.id)
-      await deleteCart(cartIds)
-      console.log(cartIds)
+      const res = await deleteCart(cartIds)
+      console.log(res)
       Toast('删除成功!')
       context.dispatch('getCartAction')
     }

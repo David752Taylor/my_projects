@@ -14,6 +14,7 @@ import SearchList from '@/views/search/list.vue'
 import Pay from '@/views/pay'
 import MyOrder from '@/views/myorder'
 import ProDetail from '@/views/prodetail'
+import AddressList from '@/views/address'
 import NotFind from '@/views/notfind'
 
 // 二级路由
@@ -43,6 +44,7 @@ const router = new VueRouter({
     { path: '/prodetail/:id?', component: ProDetail }, // 商品详情
     { path: '/pay', component: Pay }, // 支付
     { path: '/myorder', component: MyOrder }, // 我的订单
+    { path: '/address', component: AddressList }, // 收货地址
     { path: '*', component: NotFind } // 无页面
   ]
 })

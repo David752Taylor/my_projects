@@ -11,13 +11,13 @@ export default {
       navUrl: nav
     }
   },
-  getters () {
+  getters: {
 
   },
-  mutations () {
+  mutations: {
 
   },
-  actions () {
+  actions: {
 
   }
 }
