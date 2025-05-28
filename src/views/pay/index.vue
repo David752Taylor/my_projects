@@ -66,34 +66,40 @@
       <!-- 支付方式 -->
       <div class="pay-way">
         <span class="tit">支付方式</span>
-        <div class="pay-cell">
-          <span><van-icon name="balance-o" />余额支付（可用 ¥ {{personal.balance}} 元）</span>
-          <span class="red"><van-icon name="passed" /></span>
-        </div>
+        <van-radio-group v-model="payType">
+          <van-radio :name="10" checked-color="#ee0a24" label-position="left" icon-size="17">
+            <span><van-icon name="balance-o" />余额支付（可用 ¥ {{personal.balance}} 元）</span>
+          </van-radio>
+          <van-radio :name="20" checked-color="#ee0a24" label-position="left" icon-size="17">
+            <span><van-icon name="balance-o" />微信支付</span>
+          </van-radio>
+        </van-radio-group>
       </div>
 
       <!-- 买家留言 -->
        <div class="buytips">
-        <textarea name="" id="" placeholder="选填：买家留言（50字内）" cols="30" rows="10"></textarea>
+        <textarea name="" id="" placeholder="选填：买家留言（50字内）" cols="30" rows="10" v-model="remark"></textarea>
        </div>
     </div>
 
     <!-- 底部提交 -->
     <div class="footer-fixed">
       <div class="left">实付款：<span>￥{{order.orderTotalPrice}}</span></div>
-      <div class="tipsbtn">提交订单</div>
+      <div class="tipsbtn" @click="submitOrder">提交订单</div>
     </div>
   </div>
 </template>
 
 <script>
+import { submitOrder } from '@/api/order'
 import { mapState } from 'vuex'
 
 export default {
   name: 'PayIndex',
   data () {
     return {
-
+      remark: '',
+      payType: 10
     }
   },
   computed: {
@@ -123,15 +129,64 @@ export default {
     }
   },
   methods: {
-
+    async submitOrder () {
+      try {
+        if (this.mode === 'cart') {
+          const res = await submitOrder(this.mode, {
+            cartIds: this.cartIds,
+            remark: this.remark,
+            payType: this.payType
+          })
+          console.log(res)
+        }
+        if (this.mode === 'buyNow') {
+          const res = await submitOrder(this.mode, {
+            goodsId: this.goodsId,
+            goodsNum: this.goodsNum,
+            goodsSkuId: this.goodsSkuId,
+            remark: this.remark,
+            payType: this.payType
+          })
+          console.log(res)
+        }
+        this.$toast('支付成功')
+        this.$router.replace('/order')
+      } catch (error) {
+        if (this.payType === 10) {
+          this.$dialog.alert({
+            title: '温馨提示',
+            message: error,
+            confirmButtonText: '确认'
+          })
+        } else {
+          this.$dialog.confirm({
+            title: '温馨提示',
+            message: error,
+            confirmButtonText: '去支付'
+          }).then(() => {
+            this.$router.replace('/order?dataType=payment')
+          }).catch(() => {
+            // on cancel
+          })
+        }
+      }
+    }
   },
   created () {
     this.$store.dispatch('address/getAddressAction')
     if (this.mode === 'cart') {
-      this.$store.dispatch('pay/getOrderAction', { mode: this.mode, cartIds: this.cartIds })
+      this.$store.dispatch('pay/getOrderAction', {
+        mode: this.mode,
+        cartIds: this.cartIds
+      })
     }
     if (this.mode === 'buyNow') {
-      this.$store.dispatch('pay/getOrderAction', { mode: this.mode, goodsId: this.goodsId, goodsSkuId: this.goodsSkuId, goodsNum: this.goodsNum })
+      this.$store.dispatch('pay/getOrderAction', {
+        mode: this.mode,
+        goodsId: this.goodsId,
+        goodsSkuId: this.goodsSkuId,
+        goodsNum: this.goodsNum
+      })
     }
   }
 }
@@ -215,6 +270,16 @@ export default {
 .pay-cell {
   font-size: 14px;
   padding: 10px 12px;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  .red {
+    color: #fa2209;
+  }
+}
+.van-radio {
+  font-size: 14px;
+  padding: 5px 0;
   color: #333;
   display: flex;
   justify-content: space-between;

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { NavBar, Tabbar, TabbarItem, Toast, Search, Swipe, SwipeItem, grid, GridItem, Lazyload, Icon, Sidebar, SidebarItem, Image, Loading, GoodsAction, GoodsActionIcon, GoodsActionButton, Rate, ActionSheet, Stepper, Dialog, Checkbox, CheckboxGroup } from 'vant'
+import { NavBar, Tabbar, TabbarItem, Toast, Search, Swipe, SwipeItem, grid, GridItem, Lazyload, Icon, Sidebar, SidebarItem, Image, Loading, GoodsAction, GoodsActionIcon, GoodsActionButton, Rate, ActionSheet, Stepper, Dialog, Checkbox, CheckboxGroup, Tab, Tabs, RadioGroup, Radio, Button, Popup, cell, Field } from 'vant'
 
 Vue.use(Toast)
 Vue.use(NavBar)
@@ -25,3 +25,11 @@ Vue.use(Stepper)
 Vue.use(Dialog)
 Vue.use(Checkbox)
 Vue.use(CheckboxGroup)
+Vue.use(Tab)
+Vue.use(Tabs)
+Vue.use(Radio)
+Vue.use(RadioGroup)
+Vue.use(Button)
+Vue.use(Popup)
+Vue.use(cell)
+Vue.use(Field)

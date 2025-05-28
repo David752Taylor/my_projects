@@ -15,7 +15,15 @@ export default {
       setInfo(obj)
     }
   },
-  actions: {},
+  actions: {
+    logout (context) {
+      context.commit('setUserInfo', {})
+      context.commit('cart/setCartList', [], { root: true })
+      context.commit('address/setAddressList', [], { root: true })
+      context.commit('pay/setOrder', {}, { root: true })
+      context.commit('pay/setPersonal', {}, { root: true })
+    }
+  },
   getters: {}
 
 }

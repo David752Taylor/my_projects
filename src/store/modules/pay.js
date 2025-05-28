@@ -12,10 +12,10 @@ export default {
 
   },
   mutations: {
-    getOrder (state, order) {
+    setOrder (state, order) {
       state.order = order
     },
-    getPersonal (state, personal) {
+    setPersonal (state, personal) {
       state.personal = personal
     }
   },
@@ -25,8 +25,8 @@ export default {
       console.log(16)
       console.log(res)
       const { data: { order, personal } } = res
-      context.commit('getOrder', order)
-      context.commit('getPersonal', personal)
+      context.commit('setOrder', order)
+      context.commit('setPersonal', personal)
     }
   }
 

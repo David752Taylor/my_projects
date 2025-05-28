@@ -15,3 +15,26 @@ export const checkOrder = (mode, obj) => {
     }
   })
 }
+
+// mode: cart =>  obj {cartIds, remark}
+// mode: buyNow  => obj {goodsId, goodsNum goodsSkuId, remark}
+export const submitOrder = (mode, obj) => {
+  console.log('25-提交订单')
+  return request.post('/checkout/submit', {
+    mode,
+    delivery: 10,
+    couponId: 0,
+    isUsePoints: 0,
+    ...obj
+  })
+}
+
+export const getMyOrderList = (dataType, page) => {
+  console.log('30-我的订单')
+  return request.get('/order/list', {
+    params: {
+      dataType,
+      page // vant-list
+    }
+  })
+}

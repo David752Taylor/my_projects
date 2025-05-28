@@ -1,4 +1,4 @@
-import { getAddressList } from '@/api/address'
+import { addAddress, delAddress, getAddressList } from '@/api/address'
 
 export default {
   namespaced: true,
@@ -13,6 +13,9 @@ export default {
   mutations: {
     setAddressList (state, newList) {
       state.AddressList = newList
+    },
+    delAddress (state, id) {
+      state.AddressList = state.AddressList.filter((item) => item.address_id !== id)
     }
   },
   actions: {
@@ -22,6 +25,16 @@ export default {
       console.log(res)
       const { data: { list } } = res
       context.commit('setAddressList', list)
+    },
+    async delAddressAction (context, { id }) {
+      const res = await delAddress(id)
+      console.log(res)
+      await context.dispatch('getAddressAction')
+    },
+    async addAddressAction (context, form) {
+      const res = await addAddress(form)
+      console.log(res)
+      await context.dispatch('getAddressAction')
     }
   }
 }

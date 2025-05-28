@@ -43,7 +43,7 @@ const router = new VueRouter({
     { path: '/searchlist', component: SearchList }, // 搜索列表
     { path: '/prodetail/:id?', component: ProDetail }, // 商品详情
     { path: '/pay', component: Pay }, // 支付
-    { path: '/myorder', component: MyOrder }, // 我的订单
+    { path: '/order', component: MyOrder }, // 我的订单
     { path: '/address', component: AddressList }, // 收货地址
     { path: '*', component: NotFind } // 无页面
   ]
