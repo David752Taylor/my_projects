@@ -7,21 +7,22 @@ import store from '@/store'
 import '@/utils/vant-ui'
 
 // 一级路由
-import Login from '@/views/login'
 import Layout from '@/views/layout'
-import Search from '@/views/search'
-import SearchList from '@/views/search/list.vue'
-import Pay from '@/views/pay'
-import MyOrder from '@/views/myorder'
-import ProDetail from '@/views/prodetail'
-import AddressList from '@/views/address'
-import NotFind from '@/views/notfind'
 
 // 二级路由
 import Home from '@/views/layout/home.vue'
 import Cart from '@/views/layout/cart.vue'
 import User from '@/views/layout/user.vue'
 import Category from '@/views/layout/category.vue'
+
+const Login = () => import('@/views/login')
+const Search = () => import('@/views/search')
+const SearchList = () => import('@/views/search/list.vue')
+const Pay = () => import('@/views/pay')
+const MyOrder = () => import('@/views/myorder')
+const ProDetail = () => import('@/views/prodetail')
+const AddressList = () => import('@/views/address')
+const NotFind = () => import('@/views/notfind')
 
 Vue.use(VueRouter)
 
